@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hatly Task</string>
+    <string name="Movie_list">قائمة الافلام </string>
+    <string name="error">حدث خطا ما </string>
+    <string name="bad_request">حدث خطا فى </string>
+    <string name="server_error">جدث خطا من السرفر </string>
+    <string name="no_network_connection">لا يوجد اتصال بالانترنت </string>
+</resources>

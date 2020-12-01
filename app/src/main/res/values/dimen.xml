@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <resources>
+
+    <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_two">2dp</dimen>
+    <dimen name="margin_four">4dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
+    // font size
+    <dimen name="font_standard">16sp</dimen>
+    <dimen name="font_twelve">12sp</dimen>
+    <dimen name="font_ten">10sp</dimen>
+    <dimen name="font_eight">8sp</dimen>
+    <dimen name="font_big">20sp</dimen>
+
+</resources>
