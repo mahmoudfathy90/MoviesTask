@@ -4,11 +4,9 @@ package com.example.hatlytask.movieScreen.util
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
-import com.example.hatlytask.movieScreen.presentation.ui.MovieListState
-import com.example.hatlytask.movieScreen.presentation.ui.MovieListViewModel
+import com.example.hatlytask.movieScreen.domain.base.MoviesListState
+import com.example.hatlytask.movieScreen.presentation.ui.MovieAdapter
 
 @BindingMethods(
     value = [
@@ -16,17 +14,37 @@ import com.example.hatlytask.movieScreen.presentation.ui.MovieListViewModel
     ]
 )
 object MoviesBindings {
-    @BindingAdapter("movieList", "viewState")
+    @BindingAdapter("viewState")
     @JvmStatic
     fun RecyclerView.setMovieList(
-        movieList: PagedList<MoviesListModel.Movie>?,
-        viewState: MovieListState?
+        viewState: MoviesListState?
     ) {
-//        businessList?.let { (adapter as? ProductListAdapter)?.submitList(businessList) }
-//        viewState?.let { (adapter as? ProductListAdapter)?.setState(viewState) }
+        viewState?.data?.let { (adapter as? MovieAdapter)?.setData(it) }
+        viewState?.let {
+            val state: Int = when {
+                it.loadingMore -> {
+                    MovieAdapter.AdapterViewType.LOADING
+                }
+                it.errorLoadMore == null -> {
+                    MovieAdapter.AdapterViewType.ERROR
+                }
+                else -> {
+                    MovieAdapter.AdapterViewType.NORMAL
+                }
+            }
+            (adapter as? MovieAdapter)?.setState(state)
+
+//            if (it.loadingMore || it.errorLoadMore != null) {
+//                if (field.loadingMore || field.errorLoadMore != null) {
+//                    notifyItemChanged(moviesList.size)
+//                } else {
+//                    notifyItemInserted(moviesList.size)
+//                }
+//            } else {
+//                notifyItemRemoved(moviesList.size)
+//            }
+        }
     }
-
-
 
 
 }

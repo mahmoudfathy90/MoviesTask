@@ -6,4 +6,5 @@
     <string name="bad_request">حدث خطا فى </string>
     <string name="server_error">جدث خطا من السرفر </string>
     <string name="no_network_connection">لا يوجد اتصال بالانترنت </string>
+    <string name="empty">Empty</string>
 </resources>

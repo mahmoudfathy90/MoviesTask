@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.multidex.MultiDex
 import com.example.hatlytask.movieScreen.presentation.di.component.ApplicationComponent
 import com.example.hatlytask.movieScreen.presentation.di.component.DaggerApplicationComponent
+import com.example.hatlytask.movieScreen.presentation.di.component.DaggerNetworkComponent
 import com.example.hatlytask.movieScreen.presentation.di.component.NetworkComponent
 import com.example.hatlytask.movieScreen.util.Constants
 
@@ -22,10 +23,10 @@ class MyApplication : Application() {
             .applicationContext(this)
             .builder()
 
-//        networkComponent = DaggerNetworkComponent.builder()
-//            .application(this)
-//            .baseUrl(Constants.BASE_URL)
-//            .builder()
+        networkComponent = DaggerNetworkComponent.builder()
+            .application(this)
+            .baseUrl(Constants.BASE_URL)
+            .builder()
 
 
     }

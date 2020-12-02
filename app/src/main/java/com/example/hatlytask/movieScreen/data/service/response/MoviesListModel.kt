@@ -7,12 +7,14 @@ data class MoviesListModel(
     @SerializedName("page")
     var page: Int?,
     @SerializedName("results")
-    var movies: List<Movie?>?,
+    var movies: List<Movie>,
     @SerializedName("total_pages")
     var totalPages: Int?,
     @SerializedName("total_results")
     var totalResults: Int?
 ) {
+
+    fun isLastPage() = totalPages == page
     data class Movie(
         @SerializedName("adult")
         var adult: Boolean?,

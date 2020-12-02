@@ -1,6 +1,7 @@
 package com.example.hatlytask.movieScreen.presentation.di.module
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.hatlytask.movieScreen.data.service.ListApiService
 import com.example.hatlytask.movieScreen.presentation.di.qualifiers.ForApplication
 
@@ -60,6 +61,7 @@ class NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
+            .addInterceptor(ChuckerInterceptor(appContext))
             .addInterceptor (RequestInterceptor())
             .build()
     }

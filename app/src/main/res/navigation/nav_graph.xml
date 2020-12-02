@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/listScreen"
-        android:name="com.example.roubstatask.productList.presentation.screens.ProductListFragment"
+        android:name="com.example.hatlytask.movieScreen.presentation.ui.MovieListFragment"
         android:label="@string/Movie_list">
 
     </fragment>

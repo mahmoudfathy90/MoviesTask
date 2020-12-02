@@ -1,25 +1,58 @@
 package com.example.hatlytask.movieScreen.presentation.ui
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.hatlytask.movieScreen.domain.ListUseCase
+import androidx.lifecycle.*
+import com.example.hatlytask.movieScreen.data.service.reguest.ListRequestModel
+import com.example.hatlytask.movieScreen.domain.InitListUseCase
+import com.example.hatlytask.movieScreen.domain.LoadListUseCase
+import com.example.hatlytask.movieScreen.domain.base.MovieListResult
+import com.example.hatlytask.movieScreen.domain.base.MoviesListState
+import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
+import kotlinx.coroutines.*
 
 import javax.inject.Inject
 
-class MovieListViewModel @Inject constructor(private val useCase: ListUseCase) :
+class MovieListViewModel @Inject constructor(
+    private val useCaseInit: InitListUseCase,
+    private val useCaseLoadMore: LoadListUseCase
+) :
     ViewModel() {
 
-    val stateEvent = MutableLiveData<MovieListState>()
+
+    private val actionReceiver = MutableLiveData<MoviesScreenActions>()
+    private val defaultState = MoviesListState()
+    val viewState: LiveData<MoviesListState> = actionReceiver.switchMap {
+        handle(it)
+    }.map {
+        reduce(it)
+    }.distinctUntilChanged()
+
+    private fun reduce(it: MovieListResult): MoviesListState =
+        it.reduce(defaultState, viewState.value ?: defaultState)
 
 
-
-
-
-
-    override fun onCleared() {
-        super.onCleared()
+    private fun handle(action: MoviesScreenActions): LiveData<MovieListResult> = liveData {
+        when (action) {
+            is MoviesScreenActions.InitMoviesList -> {
+                emit(MovieListResult.Loading)
+                emit(useCaseInit.execute())
+            }
+            is MoviesScreenActions.LoadMoreList -> {
+                emit(MovieListResult.LoadingMore)
+                emit(useCaseLoadMore.execute {
+                    page = action.page
+                })
+            }
+        }
     }
+
+
+     infix  fun execute(action: MoviesScreenActions) {
+        actionReceiver.value = action
+    }
+
+    fun isLoadMoreDisabled(): Boolean =
+        viewState.value?.isLoadMoreDisabled() ?: true
 
 
 }

@@ -11,6 +11,7 @@ import com.example.hatlytask.movieScreen.presentation.myApp.MyApplication
 import javax.inject.Inject
 
 abstract class BaseFragmentWithInjector : androidx.fragment.app.Fragment() {
+
     @Inject
     lateinit var factory: ViewModelFactory
 

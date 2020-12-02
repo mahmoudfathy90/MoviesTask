@@ -9,31 +9,51 @@ import com.example.hatlytask.databinding.ErrorLayout
 import com.example.hatlytask.databinding.MovieItemLayout
 import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
 import com.example.hatlytask.movieScreen.util.MovieInterface
+import com.example.hatlytask.movieScreen.util.setList
+import kotlin.properties.Delegates
 
 
-class MovieAdapter(private var movieInterface: MovieInterface, private var moviesList: List<MoviesListModel.Movie>) :
-       RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MovieAdapter(private var movieInterface: MovieInterface) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var moviesList: MutableList<MoviesListModel.Movie> by Delegates.observable(mutableListOf()) { _, old, new ->
+        if (old != new) {
+            viewState = AdapterViewType.NORMAL
+            setList(old, new)
+        }
+    }
+
+    fun setData(list: List<MoviesListModel.Movie>) {
+        moviesList = list.toMutableList()
+    }
 
 
-
-    private var viewState = MovieListState()
+    @AdapterViewType
+    private var viewState: Int = AdapterViewType.NORMAL
         set(value) {
             if (field == value) return
-            if (value.loadingMore || value.errorLoadMore != null) {
-                if (field.loadingMore || field.errorLoadMore != null) {
-                    notifyItemChanged(moviesList.size)
-                } else {
+            if (field == AdapterViewType.LOADING || field == AdapterViewType.ERROR) {
+                notifyItemChanged(moviesList.size)
+                return
+            }
+            when (value) {
+                AdapterViewType.LOADING,
+                AdapterViewType.ERROR -> {
                     notifyItemInserted(moviesList.size)
                 }
-            } else {
-                notifyItemRemoved(moviesList.size)
+                else -> {
+                    notifyItemRemoved(moviesList.size)
+                }
             }
             field = value
+
+
         }
 
-    fun setState(viewState: MovieListState) {
+    fun setState(@AdapterViewType viewState: Int) {
         this.viewState = viewState
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -44,7 +64,8 @@ class MovieAdapter(private var movieInterface: MovieInterface, private var movie
             }
             AdapterViewType.ERROR -> {
                 val binding = ErrorLayout.inflate(layoutInflater, parent, false)
-                ErrorViewHolder(binding, viewState.errorLoadMore,retry = movieInterface)
+                // ErrorViewHolder(binding, AdapterViewType.LOADING, retry = movieInterface)
+                ErrorViewHolder(binding, retry = movieInterface)
             }
             else -> {
                 val binding = MovieItemLayout.inflate(layoutInflater, parent, false)
@@ -55,44 +76,18 @@ class MovieAdapter(private var movieInterface: MovieInterface, private var movie
 
     //function for size of  List
     override fun getItemCount(): Int {
-        if (viewState.loadingMore || viewState.errorLoadMore != null) {
+        if (viewState == AdapterViewType.LOADING || viewState == AdapterViewType.ERROR) {
             return moviesList.size + 1
         }
         return moviesList.size
     }
 
-    internal fun updateListWithScrool(movies: List<MoviesListModel.Movie>, scrool: Boolean, position: Int) {
-        if (scrool) {
-            this.moviesList = movies
-            notifyItemRangeInserted(position, moviesList.size - 1 - position)
-        } else {
-            this.moviesList = movies
-            this.notifyDataSetChanged()
-        }
-    }
-
-
-
-
 
     override fun getItemViewType(position: Int): Int {
         return if (position == moviesList.size) {
-            when {
-                viewState.loadingMore -> {
-                    AdapterViewType.LOADING
-                }
-                viewState.errorLoadMore != null -> {
-                    AdapterViewType.ERROR
-                }
-                else -> {
-                    AdapterViewType.NORMAL
-                }
-            }
+            viewState
         } else AdapterViewType.NORMAL
     }
-
-
-
 
 
     class ItemViewHolder(
@@ -107,17 +102,15 @@ class MovieAdapter(private var movieInterface: MovieInterface, private var movie
 
     class ErrorViewHolder(
         binding: ErrorLayout,
-        val error: Throwable?,
+        // val error: Throwable?,
         retry: MovieInterface
     ) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.error = error
+            //   binding.error = error
             binding.handler = retry
         }
     }
-
-
     @IntDef(AdapterViewType.LOADING, AdapterViewType.ERROR, AdapterViewType.NORMAL)
     annotation class AdapterViewType {
         companion object {
@@ -126,7 +119,6 @@ class MovieAdapter(private var movieInterface: MovieInterface, private var movie
             const val NORMAL = 3
         }
     }
-
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
