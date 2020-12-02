@@ -43,7 +43,7 @@ data class MoviesListModel(
         @SerializedName("video")
         var video: Boolean?,
         @SerializedName("vote_average")
-        var voteAverage: Double?,
+        var voteAverage: Float?,
         @SerializedName("vote_count")
         var voteCount: Int?
     )

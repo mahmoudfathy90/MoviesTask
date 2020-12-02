@@ -7,4 +7,9 @@
     <string name="server_error">جدث خطا من السرفر </string>
     <string name="no_network_connection">لا يوجد اتصال بالانترنت </string>
     <string name="empty">Empty</string>
+    <string name="filter">Filter</string>
+    <string name="release_date">تاريخ الاصدار</string>
+    <string name="choose_type">اختر النوع </string>
+
+
 </resources>

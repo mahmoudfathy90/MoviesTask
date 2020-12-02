@@ -1,6 +1,7 @@
 package com.example.hatlytask.movieScreen.presentation.ui
 
 
+import android.provider.SyncStateContract
 import androidx.lifecycle.*
 import com.example.hatlytask.movieScreen.data.service.reguest.ListRequestModel
 import com.example.hatlytask.movieScreen.domain.InitListUseCase
@@ -8,6 +9,7 @@ import com.example.hatlytask.movieScreen.domain.LoadListUseCase
 import com.example.hatlytask.movieScreen.domain.base.MovieListResult
 import com.example.hatlytask.movieScreen.domain.base.MoviesListState
 import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
+import com.example.hatlytask.movieScreen.util.Constants
 import kotlinx.coroutines.*
 
 import javax.inject.Inject
@@ -41,6 +43,13 @@ class MovieListViewModel @Inject constructor(
                 emit(MovieListResult.LoadingMore)
                 emit(useCaseLoadMore.execute {
                     page = action.page
+                })
+            }
+            is MoviesScreenActions.FilterByType -> {
+                emit(MovieListResult.Loading)
+                emit(useCaseInit.execute(){
+                    mediaType=action.type
+                    page= Constants.FIRST_PAGE
                 })
             }
         }

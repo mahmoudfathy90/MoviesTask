@@ -65,7 +65,7 @@
                 android:layout_marginBottom="@dimen/margin_half"
                 android:isIndicator="true"
                 android:numStars="10"
-                android:rating="@{Float.valueOf(model.voteAverage.toString())}"
+                android:rating="@{Float.valueOf(model.voteAverage)}"
                 android:stepSize="0.1"
                 android:theme="@style/RatingBar"
                 app:layout_constraintHorizontal_bias=".0"

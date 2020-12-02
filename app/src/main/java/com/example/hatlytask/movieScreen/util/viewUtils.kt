@@ -22,7 +22,6 @@ fun ImageView.loadImage(imgUrl: String?) {
 
 
 
-
 @BindingAdapter("bind:checkError")
 fun TextView.checkError(throwable: Throwable?) {
     if (throwable is HttpException) {

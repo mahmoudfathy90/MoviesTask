@@ -25,7 +25,7 @@ object MoviesBindings {
                 it.loadingMore -> {
                     MovieAdapter.AdapterViewType.LOADING
                 }
-                it.errorLoadMore == null -> {
+                it.errorLoadMore != null -> {
                     MovieAdapter.AdapterViewType.ERROR
                 }
                 else -> {
@@ -33,16 +33,6 @@ object MoviesBindings {
                 }
             }
             (adapter as? MovieAdapter)?.setState(state)
-
-//            if (it.loadingMore || it.errorLoadMore != null) {
-//                if (field.loadingMore || field.errorLoadMore != null) {
-//                    notifyItemChanged(moviesList.size)
-//                } else {
-//                    notifyItemInserted(moviesList.size)
-//                }
-//            } else {
-//                notifyItemRemoved(moviesList.size)
-//            }
         }
     }
 

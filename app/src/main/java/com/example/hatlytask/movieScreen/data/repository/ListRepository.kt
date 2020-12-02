@@ -12,7 +12,7 @@ class ListRepository @Inject constructor(private val apiService: ListApiService)
 {
     override suspend fun getAllMovies(requestModel: ListRequestModel): MoviesListModel {
         return apiService.getAllMovies(
-            page = requestModel.page,time_window = requestModel.timeWindow,media_type = requestModel.MediaType
+            page = requestModel.page,time_window = requestModel.timeWindow,media_type = requestModel.mediaType
         ,api_key = Constants.API_KEY
         )
     }

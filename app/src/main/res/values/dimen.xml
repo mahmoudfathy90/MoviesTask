@@ -3,6 +3,7 @@
     <resources>
 
     <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_double_standard">32dp</dimen>
     <dimen name="margin_two">2dp</dimen>
     <dimen name="margin_four">4dp</dimen>
     <dimen name="margin_half">8dp</dimen>
