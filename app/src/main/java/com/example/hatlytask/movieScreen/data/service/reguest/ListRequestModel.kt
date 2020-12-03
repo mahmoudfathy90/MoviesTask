@@ -5,8 +5,8 @@ import com.example.hatlytask.movieScreen.util.Constants
 
 
 data class ListRequestModel(
-    var page: Int?=Constants.FIRST_PAGE,
-    @FilterMovieType var mediaType: String?=FilterMovieType.MOVIE,
-    var timeWindow: String?=Constants.API_TIME_WINDOW
+    var page: Int? = Constants.FIRST_PAGE,
+    @FilterMovieType var mediaType: String? = FilterMovieType.MOVIE,
+    var timeWindow: String? = Constants.API_TIME_WINDOW
 )
 

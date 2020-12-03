@@ -1,16 +1,14 @@
 package com.example.hatlytask.movieScreen.presentation.ui
 
 
-import android.provider.SyncStateContract
 import androidx.lifecycle.*
-import com.example.hatlytask.movieScreen.data.service.reguest.ListRequestModel
+import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
 import com.example.hatlytask.movieScreen.domain.InitListUseCase
 import com.example.hatlytask.movieScreen.domain.LoadListUseCase
 import com.example.hatlytask.movieScreen.domain.base.MovieListResult
 import com.example.hatlytask.movieScreen.domain.base.MoviesListState
 import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
 import com.example.hatlytask.movieScreen.util.Constants
-import kotlinx.coroutines.*
 
 import javax.inject.Inject
 
@@ -23,7 +21,8 @@ class MovieListViewModel @Inject constructor(
 
     private val actionReceiver = MutableLiveData<MoviesScreenActions>()
     private val defaultState = MoviesListState()
-    val viewState: LiveData<MoviesListState> = actionReceiver.switchMap {
+    val viewState: LiveData<MoviesListState> =
+        actionReceiver.switchMap {
         handle(it)
     }.map {
         reduce(it)
@@ -47,16 +46,25 @@ class MovieListViewModel @Inject constructor(
             }
             is MoviesScreenActions.FilterByType -> {
                 emit(MovieListResult.Loading)
-                emit(useCaseInit.execute(){
-                    mediaType=action.type
-                    page= Constants.FIRST_PAGE
+                emit(useCaseInit.execute() {
+                    mediaType = action.type
+                    page = Constants.FIRST_PAGE
                 })
+            }
+
+            is MoviesScreenActions.FilterByReleaseData -> {
+                emit(MovieListResult.FilterByDateResult(action.date))
+
+
+
+
+
             }
         }
     }
 
 
-     infix  fun execute(action: MoviesScreenActions) {
+    infix fun execute(action: MoviesScreenActions) {
         actionReceiver.value = action
     }
 

@@ -8,6 +8,7 @@ import com.example.hatlytask.movieScreen.util.Constants
 import java.lang.Exception
 
 import javax.inject.Inject
+
 class InitListUseCase @Inject constructor(private val repository: IListRepository) {
     /**
      * function used execute the all movies from repository
@@ -22,7 +23,7 @@ class InitListUseCase @Inject constructor(private val repository: IListRepositor
                 MovieListResult.Empty
             } else {
                 MovieListResult.InitListResult(
-                    model.movies ,
+                    model.movies,
                     model.isLastPage()
                 )
             }

@@ -52,21 +52,21 @@ class NetworkModule {
 
     @Reusable
     @Provides
-    fun provideOkhttpClient(cache: Cache?,@ForApplication appContext: Context): OkHttpClient {
+    fun provideOkhttpClient(cache: Cache?, @ForApplication appContext: Context): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         return OkHttpClient.Builder()
-             .cache(cache)
+            .cache(cache)
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .addInterceptor(ChuckerInterceptor(appContext))
-            .addInterceptor (RequestInterceptor())
+            .addInterceptor(RequestInterceptor())
             .build()
     }
 
-    class RequestInterceptor :Interceptor{
+    class RequestInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val request: Request =
                 chain.request().newBuilder()
@@ -86,7 +86,6 @@ class NetworkModule {
             .client(okHttpClient)
             .build()
     }
-
 
 
     @Reusable

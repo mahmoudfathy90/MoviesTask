@@ -5,5 +5,5 @@ import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
 
 interface MovieInterface {
     fun retry()
-    fun getDetails(movie:MoviesListModel.Movie)
+    fun getDetails(movie: MoviesListModel.Movie)
 }

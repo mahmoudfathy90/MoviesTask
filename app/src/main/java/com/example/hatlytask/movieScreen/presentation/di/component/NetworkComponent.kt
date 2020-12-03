@@ -1,7 +1,6 @@
 package com.example.hatlytask.movieScreen.presentation.di.component
 
 
-
 import com.example.hatlytask.movieScreen.presentation.BaseBottomSheetFragmentWithInjector
 import com.example.hatlytask.movieScreen.presentation.BaseFragmentWithInjector
 import com.example.hatlytask.movieScreen.presentation.di.module.ApplicationModule
@@ -21,14 +20,16 @@ import javax.inject.Singleton
 interface NetworkComponent {
 
 
-  fun inject(fragment: BaseFragmentWithInjector)
-  fun inject(activity: BaseBottomSheetFragmentWithInjector)
+    fun inject(fragment: BaseFragmentWithInjector)
+    fun inject(activity: BaseBottomSheetFragmentWithInjector)
 
     @Component.Builder
     interface NetworkBuilder {
         fun builder(): NetworkComponent
+
         @BindsInstance
         fun application(app: MyApplication): NetworkBuilder
+
         @BindsInstance
         fun baseUrl(baseUrl: String): NetworkBuilder
 

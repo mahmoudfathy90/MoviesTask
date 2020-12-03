@@ -9,7 +9,6 @@ import com.example.hatlytask.movieScreen.presentation.di.module.ViewModelFactory
 import com.example.hatlytask.movieScreen.presentation.myApp.MyApplication
 
 
-
 import javax.inject.Inject
 
 abstract class BaseFragmentWithInjector : androidx.fragment.app.Fragment() {
@@ -27,7 +26,6 @@ abstract class BaseFragmentWithInjector : androidx.fragment.app.Fragment() {
     }
 
     abstract fun getFragmentVM(): Class<out ViewModel>
-
 
 
 }

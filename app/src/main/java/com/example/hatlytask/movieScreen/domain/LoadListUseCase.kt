@@ -19,7 +19,8 @@ class LoadListUseCase @Inject constructor(private val repository: IListRepositor
         return try {
             val model = repository.getAllMovies(requestModel)
 
-            MovieListResult.LoadMoreListResult(model.movies ,
+            MovieListResult.LoadMoreListResult(
+                model.movies,
                 model.isLastPage()
             )
 

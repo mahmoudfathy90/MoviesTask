@@ -7,7 +7,7 @@ sealed class MoviesScreenActions {
     object InitMoviesList : MoviesScreenActions()
     data class LoadMoreList(val page: Int) : MoviesScreenActions()
     data class FilterByType(@FilterMovieType val type: String) : MoviesScreenActions()
-    data class FilterByReleaseData(val data: String) : MoviesScreenActions()
+    data class FilterByReleaseData(val date: String) : MoviesScreenActions()
 }
 
 sealed class MovieListResult : Result {
@@ -79,6 +79,22 @@ sealed class MovieListResult : Result {
             return defaultState.copy(empty = true)
         }
     }
+
+     data class FilterByDateResult(var date:String) :
+        MovieListResult() {
+        override fun reduce(
+            defaultState: MoviesListState,
+            oldState: MoviesListState
+        ): MoviesListState {
+           val list=oldState.data.filter { it.releaseDate==date }
+           val isEmpty = list.isEmpty()
+            return defaultState.copy(
+                data = list  ,
+                empty = isEmpty
+            )
+        }
+    }
+
 
 }
 

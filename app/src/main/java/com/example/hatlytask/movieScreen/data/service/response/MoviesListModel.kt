@@ -17,6 +17,7 @@ data class MoviesListModel(
 ) {
 
     fun isLastPage() = totalPages == page
+
     @Parcelize
     data class Movie(
         @SerializedName("adult")
@@ -49,5 +50,5 @@ data class MoviesListModel(
         var voteAverage: Float?,
         @SerializedName("vote_count")
         var voteCount: Int?
-    ):Parcelable
+    ) : Parcelable
 }

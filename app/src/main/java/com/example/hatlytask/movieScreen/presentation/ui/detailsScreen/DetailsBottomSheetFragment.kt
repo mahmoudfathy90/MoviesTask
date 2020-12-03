@@ -8,7 +8,7 @@ import com.example.hatlytask.databinding.DetailsLayout
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class DetailsBottomSheetFragment: BottomSheetDialogFragment() {
+class DetailsBottomSheetFragment : BottomSheetDialogFragment() {
 
 
     private lateinit var binding: DetailsLayout
@@ -21,7 +21,7 @@ class DetailsBottomSheetFragment: BottomSheetDialogFragment() {
     ): View? {
         binding = DetailsLayout.inflate(inflater, container, false)
         binding.apply {
-           model=navArg.model
+            model = navArg.model
         }
         return binding.root
     }
@@ -32,7 +32,6 @@ class DetailsBottomSheetFragment: BottomSheetDialogFragment() {
 
 
     }
-
 
 
 }

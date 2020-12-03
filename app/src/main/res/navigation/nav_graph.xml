@@ -6,7 +6,6 @@
     android:id="@+id/nav_graph">
 
 
-
     <fragment
         android:id="@+id/listScreen"
         android:name="com.example.hatlytask.movieScreen.presentation.ui.MovieListFragment"
@@ -27,7 +26,7 @@
     <dialog
         android:id="@+id/detailsBottomSheetFragment"
         android:name="com.example.hatlytask.movieScreen.presentation.ui.detailsScreen.DetailsBottomSheetFragment"
-        android:label="DetailsBottomSheetFragment" >
+        android:label="DetailsBottomSheetFragment">
         <argument
             android:name="model"
             app:argType="com.example.hatlytask.movieScreen.data.service.response.MoviesListModel$Movie"

@@ -22,7 +22,6 @@
     </style>
 
 
-
     <style name="textFontBoldStyle" parent="android:TextAppearance">
         <item name="android:textDirection">locale</item>
         <item name="android:includeFontPadding">false</item>

@@ -16,10 +16,8 @@ import retrofit2.HttpException
 @BindingAdapter("bind:loadImage")
 fun ImageView.loadImage(imgUrl: String?) {
     if (imgUrl.isNullOrEmpty()) return
-    Picasso.get().load(Constants.IMAGE_URL+imgUrl).into(this)
+    Picasso.get().load(Constants.IMAGE_URL + imgUrl).into(this)
 }
-
-
 
 
 @BindingAdapter("bind:checkError")
@@ -37,10 +35,8 @@ fun TextView.checkError(throwable: Throwable?) {
                 context.getString(R.string.error)
             }
         }
-    }
-    else
-    {
-        text=context.getString(R.string.no_network_connection)
+    } else {
+        text = context.getString(R.string.no_network_connection)
     }
 }
 

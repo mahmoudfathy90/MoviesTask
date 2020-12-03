@@ -21,11 +21,10 @@ abstract class BaseBottomSheetFragmentWithInjector : BottomSheetDialogFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as MyApplication).networkComponent.inject(this)
-         vm = ViewModelProviders.of(this, factory)[getFragmentVM()]
+        vm = ViewModelProviders.of(this, factory)[getFragmentVM()]
     }
 
     abstract fun getFragmentVM(): Class<out ViewModel>
-
 
 
 }

@@ -8,12 +8,14 @@ import com.example.hatlytask.movieScreen.util.Constants
 import javax.inject.Inject
 
 
-class ListRepository @Inject constructor(private val apiService: ListApiService) : IListRepository
-{
+class ListRepository @Inject constructor(private val apiService: ListApiService) : IListRepository {
     override suspend fun getAllMovies(requestModel: ListRequestModel): MoviesListModel {
         return apiService.getAllMovies(
-            page = requestModel.page,time_window = requestModel.timeWindow,media_type = requestModel.mediaType
-        ,api_key = Constants.API_KEY
+            page = requestModel.page,
+            time_window = requestModel.timeWindow,
+            media_type = requestModel.mediaType
+            ,
+            api_key = Constants.API_KEY
         )
     }
 

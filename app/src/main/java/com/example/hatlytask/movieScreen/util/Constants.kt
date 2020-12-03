@@ -4,8 +4,8 @@ class Constants {
 
     companion object {
 
-       const val API_TIME_WINDOW="day"
-        const val IMAGE_URL="https://image.tmdb.org/t/p/w500/"
+        const val API_TIME_WINDOW = "day"
+        const val IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
         //TODO:Work IP
         const val BASE_URL = "https://api.themoviedb.org/3/"
