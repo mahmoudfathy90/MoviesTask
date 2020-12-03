@@ -2,7 +2,7 @@ package com.example.hatlytask.movieScreen.presentation.di.component
 
 
 
-import com.example.hatlytask.movieScreen.presentation.BaseActivityWithInjector
+import com.example.hatlytask.movieScreen.presentation.BaseBottomSheetFragmentWithInjector
 import com.example.hatlytask.movieScreen.presentation.BaseFragmentWithInjector
 import com.example.hatlytask.movieScreen.presentation.di.module.ApplicationModule
 import com.example.hatlytask.movieScreen.presentation.di.module.ListModule
@@ -22,7 +22,7 @@ interface NetworkComponent {
 
 
   fun inject(fragment: BaseFragmentWithInjector)
-  fun inject(activity: BaseActivityWithInjector)
+  fun inject(activity: BaseBottomSheetFragmentWithInjector)
 
     @Component.Builder
     interface NetworkBuilder {

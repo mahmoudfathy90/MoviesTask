@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.ListFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -39,11 +41,7 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface{
         savedInstanceState: Bundle?
     ): View? {
         binding = MovieLayout.inflate(inflater, container, false)
-        binding.apply {
-            viewModel = movieListViewModel
-            lifecycleOwner = viewLifecycleOwner
-            adapter = movieAdapter
-        }
+
         return binding.root
     }
 
@@ -51,9 +49,39 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            viewModel = movieListViewModel
+            lifecycleOwner = viewLifecycleOwner
+            adapter = movieAdapter
+        }
         init()
+
         goToDialog()
 
+        val navController = findNavController();
+
+    //  val navBackStackEntry = navController.getBackStackEntry(R.id.nav_host_fragment)
+//
+//        // Create observer and add it to the NavBackStackEntry's lifecycle
+//        val observer = LifecycleEventObserver { _, event ->
+//            if (event == Lifecycle.Event.ON_RESUME
+//                && navBackStackEntry.savedStateHandle.contains("key")
+//            ) {
+//                val result =
+//                    navBackStackEntry.savedStateHandle.get<Boolean>("key")
+//                // Do something with the result
+//
+//            }
+//        }
+//        navBackStackEntry.lifecycle.addObserver(observer)
+//
+//        // As addObserver() does not automatically remove the observer, we
+//        // call removeObserver() manually when the view lifecycle is destroyed
+//        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+//            if (event == Lifecycle.Event.ON_DESTROY) {
+//                navBackStackEntry.lifecycle.removeObserver(observer)
+//            }
+//        })
         error.setOnClickListener {
             movieListViewModel execute MoviesScreenActions.InitMoviesList
         }
@@ -89,7 +117,8 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface{
     }
 
     override fun getDetails(movie: MoviesListModel.Movie) {
-        TODO("Not yet implemented")
+        findNavController().navigate(MovieListFragmentDirections
+            .actionListScreenToDetailsBottomSheetFragment(movie))
     }
 
 

@@ -5,16 +5,22 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import com.example.hatlytask.R
 import com.example.hatlytask.movieScreen.domain.FilterMovieType
 import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
+import com.example.hatlytask.movieScreen.presentation.BaseBottomSheetFragmentWithInjector
+import com.example.hatlytask.movieScreen.presentation.ui.MovieListViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 
-class FilterDialogFragment: BottomSheetDialogFragment(), AdapterView.OnItemSelectedListener  {
+class FilterDialogFragment: BaseBottomSheetFragmentWithInjector(), AdapterView.OnItemSelectedListener  {
 
     var types =
         arrayOf(FilterMovieType.ALL, FilterMovieType.MOVIE, FilterMovieType.PERSON, FilterMovieType.TV)
+
+    private val movieListViewModel: MovieListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +31,11 @@ class FilterDialogFragment: BottomSheetDialogFragment(), AdapterView.OnItemSelec
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         dialog?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         return view
+    }
+
+    override fun getFragmentVM(): Class<out ViewModel> {
+        return MovieListViewModel::class.java
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,9 +58,9 @@ class FilterDialogFragment: BottomSheetDialogFragment(), AdapterView.OnItemSelec
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-        //list.smoothScrollToPosition(0)
-        //movieListViewModel execute MoviesScreenActions.FilterByType(types[p2])
+        if (p2==0) return
+        dismiss()
+        movieListViewModel execute MoviesScreenActions.FilterByType(types[p2])
     }
 
 

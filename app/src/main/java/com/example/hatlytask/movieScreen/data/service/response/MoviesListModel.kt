@@ -1,7 +1,9 @@
 package com.example.hatlytask.movieScreen.data.service.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class MoviesListModel(
     @SerializedName("page")
@@ -15,6 +17,7 @@ data class MoviesListModel(
 ) {
 
     fun isLastPage() = totalPages == page
+    @Parcelize
     data class Movie(
         @SerializedName("adult")
         var adult: Boolean?,
@@ -46,5 +49,5 @@ data class MoviesListModel(
         var voteAverage: Float?,
         @SerializedName("vote_count")
         var voteCount: Int?
-    )
+    ):Parcelable
 }

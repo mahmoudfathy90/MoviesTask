@@ -69,7 +69,7 @@ class MovieAdapter(private var movieInterface: MovieInterface) :
             }
             else -> {
                 val binding = MovieItemLayout.inflate(layoutInflater, parent, false)
-                ItemViewHolder(binding)
+                ItemViewHolder(binding,movieInterface)
             }
         }
     }
@@ -91,12 +91,13 @@ class MovieAdapter(private var movieInterface: MovieInterface) :
 
 
     class ItemViewHolder(
-        private val binding: MovieItemLayout
+        private val binding: MovieItemLayout,val  movieInterface: MovieInterface
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MoviesListModel.Movie) {
             binding.model = item
+            binding.root.setOnClickListener {movieInterface.getDetails(item)  }
         }
     }
 
