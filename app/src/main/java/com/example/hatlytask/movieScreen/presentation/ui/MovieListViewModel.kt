@@ -1,6 +1,7 @@
 package com.example.hatlytask.movieScreen.presentation.ui
 
 
+import android.content.res.Configuration
 import androidx.lifecycle.*
 import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
 import com.example.hatlytask.movieScreen.domain.InitListUseCase
@@ -21,6 +22,7 @@ class MovieListViewModel @Inject constructor(
 
     private val actionReceiver = MutableLiveData<MoviesScreenActions>()
     private val defaultState = MoviesListState()
+
     val viewState: LiveData<MoviesListState> =
         actionReceiver.switchMap {
         handle(it)

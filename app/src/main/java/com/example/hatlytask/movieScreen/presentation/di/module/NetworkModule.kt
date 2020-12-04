@@ -61,7 +61,7 @@ class NetworkModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
-            .addInterceptor(ChuckerInterceptor(appContext))
+           // .addInterceptor(ChuckerInterceptor(appContext))
             .addInterceptor(RequestInterceptor())
             .build()
     }

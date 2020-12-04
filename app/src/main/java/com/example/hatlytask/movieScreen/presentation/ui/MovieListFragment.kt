@@ -40,7 +40,6 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface, FilterInte
         savedInstanceState: Bundle?
     ): View? {
         binding = MovieLayout.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -54,7 +53,6 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface, FilterInte
         }
         init()
         goToDialog()
-
         error.setOnClickListener {
             movieListViewModel execute MoviesScreenActions.InitMoviesList
         }
@@ -79,13 +77,11 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface, FilterInte
 
 
     private fun init() {
-
         movieListViewModel execute MoviesScreenActions.InitMoviesList
         paginator = RecyclerPaginator(list, { movieListViewModel.isLoadMoreDisabled() }, {
             if (!isFilterByDate)
             movieListViewModel execute MoviesScreenActions.LoadMoreList(it)
         })
-
     }
 
 
