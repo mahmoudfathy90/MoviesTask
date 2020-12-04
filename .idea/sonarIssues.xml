@@ -208,7 +208,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/hatlytask/movieScreen/presentation/ui/dialogScreen/FilterClass.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/example/hatlytask/movieScreen/presentation/ui/dialogScreen/FilterDialogFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/hatlytask/movieScreen/presentation/ui/dialogScreen/FilterInterface.kt">
           <value>
             <set />
           </value>

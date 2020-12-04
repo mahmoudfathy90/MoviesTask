@@ -1,6 +1,5 @@
 package com.example.hatlytask.movieScreen.presentation.ui
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.hatlytask.databinding.MovieLayout
 import com.example.hatlytask.movieScreen.data.service.response.MoviesListModel
 import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
 import com.example.hatlytask.movieScreen.presentation.BaseFragmentWithInjector
-import com.example.hatlytask.movieScreen.presentation.ui.dialogScreen.FilterActions
+import com.example.hatlytask.movieScreen.presentation.ui.dialogScreen.FilterClass
+import com.example.hatlytask.movieScreen.presentation.ui.dialogScreen.FilterInterface
 import com.example.hatlytask.movieScreen.util.MovieInterface
 import com.example.hatlytask.movieScreen.util.RecyclerPaginator
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 
 
-class MovieListFragment : BaseFragmentWithInjector(), MovieInterface {
+class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInterface {
 
 
     private val movieAdapter by lazy { MovieAdapter(this) }
@@ -53,47 +52,13 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface {
         }
         init()
         goToDialog()
-        handleBackResult()
+
         error.setOnClickListener {
             movieListViewModel execute MoviesScreenActions.InitMoviesList
         }
     }
 
-    fun filterByDate(date:String){
-        movieListViewModel execute  MoviesScreenActions.FilterByReleaseData("2020-08-22")
-    }
 
-
-
-    private fun handleBackResult(){
-        val navController = findNavController();
-
-          val navBackStackEntry = navController.getBackStackEntry(com.example.hatlytask.R.id.listScreen)
-
-        // Create observer and add it to the NavBackStackEntry's lifecycle
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME
-                && navBackStackEntry.savedStateHandle.contains("key")
-            ) {
-                val result =
-                    navBackStackEntry.savedStateHandle.get<String>("key")
-//                if (result?.isType!!) {
-//                    movieListViewModel execute MoviesScreenActions.FilterByType(result.type!!)
-//                }else{
-                    filterByDate(result!!)
-            //    }
-            }
-        }
-        navBackStackEntry.lifecycle.addObserver(observer)
-
-        // As addObserver() does not automatically remove the observer, we
-        // call removeObserver() manually when the view lifecycle is destroyed
-        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_DESTROY) {
-                navBackStackEntry.lifecycle.removeObserver(observer)
-            }
-        })
-    }
 
 
     override fun getFragmentVM(): Class<out ViewModel> {
@@ -102,10 +67,12 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface {
 
 
     private fun goToDialog() {
+        var filterClass=FilterClass()
+        filterClass.filterInterface=this
         floating_action_button.setOnClickListener { fabView ->
             fabView.findNavController().navigate(
                 MovieListFragmentDirections
-                    .actionListScreenToFilterDialogFragment()
+                    .actionListScreenToFilterDialogFragment(filterClass)
             )
         }
     }
@@ -131,6 +98,15 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface {
                 .actionListScreenToDetailsBottomSheetFragment(movie)
         )
     }
+
+    override fun getReleaseDate(date: String) =
+        movieListViewModel execute  MoviesScreenActions.FilterByReleaseData(date)
+
+
+    override fun getType(type: String) =
+        movieListViewModel execute MoviesScreenActions.FilterByType(type)
+
+
 
 
 }

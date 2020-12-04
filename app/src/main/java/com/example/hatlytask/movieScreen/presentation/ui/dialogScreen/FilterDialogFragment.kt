@@ -1,30 +1,31 @@
 package com.example.hatlytask.movieScreen.presentation.ui.dialogScreen
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Filter
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.hatlytask.R
 import com.example.hatlytask.movieScreen.domain.FilterMovieType
-import com.example.hatlytask.movieScreen.domain.base.MoviesScreenActions
-import com.example.hatlytask.movieScreen.presentation.BaseBottomSheetFragmentWithInjector
-import com.example.hatlytask.movieScreen.presentation.ui.MovieListViewModel
+import com.example.hatlytask.movieScreen.presentation.ui.detailsScreen.DetailsBottomSheetFragmentArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_fragment_filter.*
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 import kotlinx.android.synthetic.main.fragment_movie_list.spinner
+import java.util.*
+
 
 class FilterDialogFragment : BottomSheetDialogFragment(),
     AdapterView.OnItemSelectedListener {
 
     lateinit var types :Array<String>
 
-    lateinit var filterActions:FilterActions
+    lateinit var picker:DatePickerDialog
+    private val navArg by navArgs<FilterDialogFragmentArgs>()
+    lateinit var filterInterface:FilterInterface
+
 
 
     override fun onCreateView(
@@ -46,7 +47,7 @@ class FilterDialogFragment : BottomSheetDialogFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        filterActions= FilterActions()
+        filterInterface=navArg.model.filterInterface
         types=arrayOf(
             getString(R.string.choose_type),
             FilterMovieType.ALL,
@@ -55,19 +56,10 @@ class FilterDialogFragment : BottomSheetDialogFragment(),
             FilterMovieType.TV
         )
         handleSpinner()
-        handleData()
+        getReleaseDate()
 
     }
 
-    private fun handleData(){
-        releaseDate.setOnClickListener {
-            dismiss()
-            filterActions.isType=false
-            // filterActions.type=types[p2]
-            findNavController().previousBackStackEntry?.savedStateHandle?.set("key", "date")
-
-        }
-    }
 
 
     private fun handleSpinner() {
@@ -85,9 +77,29 @@ class FilterDialogFragment : BottomSheetDialogFragment(),
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         if (p2 == 0) return
         dismiss()
-        filterActions.isType=true
-        filterActions.type=types[p2]
-        findNavController().previousBackStackEntry?.savedStateHandle?.set("key", types[p2])
+        filterInterface.getType(types[p2])
+       // findNavController().previousBackStackEntry?.savedStateHandle?.set("key", )
+    }
+
+    private fun getReleaseDate(){
+        releaseDate.setOnClickListener {
+            val cldr: Calendar = Calendar.getInstance()
+            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            val month: Int = cldr.get(Calendar.MONTH)
+            val year: Int = cldr.get(Calendar.YEAR)
+            // date picker dialog
+            picker = DatePickerDialog(
+                requireContext(),
+                OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    var date="$year-${monthOfYear + 1}-$dayOfMonth"
+                   releaseDate.setText(date)
+                   filterInterface.getReleaseDate(date)
+                    }, year, month, day
+            )
+            picker.datePicker.maxDate = Date().time
+            picker.show()
+        }
+
     }
 
 

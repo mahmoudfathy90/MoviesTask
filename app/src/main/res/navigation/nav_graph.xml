@@ -22,7 +22,11 @@
     <dialog
         android:id="@+id/filterDialogFragment"
         android:name="com.example.hatlytask.movieScreen.presentation.ui.dialogScreen.FilterDialogFragment"
-        android:label="FilterDialogFragment" />
+        android:label="FilterDialogFragment" >
+        <argument
+            android:name="model"
+            app:argType="com.example.hatlytask.movieScreen.presentation.ui.dialogScreen.FilterClass" />
+    </dialog>
     <dialog
         android:id="@+id/detailsBottomSheetFragment"
         android:name="com.example.hatlytask.movieScreen.presentation.ui.detailsScreen.DetailsBottomSheetFragment"
