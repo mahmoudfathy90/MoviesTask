@@ -88,10 +88,12 @@ sealed class MovieListResult : Result {
         ): MoviesListState {
            val list=oldState.data.filter { it.releaseDate==date }
            val isEmpty = list.isEmpty()
-            return defaultState.copy(
+            return oldState.copy(
                 data = list  ,
-                empty = isEmpty
+                empty = isEmpty,
+                loading = false
             )
+
         }
     }
 

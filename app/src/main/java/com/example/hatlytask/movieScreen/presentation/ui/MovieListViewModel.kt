@@ -52,13 +52,9 @@ class MovieListViewModel @Inject constructor(
                 })
             }
 
+
             is MoviesScreenActions.FilterByReleaseData -> {
                 emit(MovieListResult.FilterByDateResult(action.date))
-
-
-
-
-
             }
         }
     }

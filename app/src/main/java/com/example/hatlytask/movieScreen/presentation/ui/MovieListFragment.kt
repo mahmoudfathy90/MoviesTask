@@ -21,7 +21,7 @@ import com.example.hatlytask.movieScreen.util.RecyclerPaginator
 import kotlinx.android.synthetic.main.fragment_movie_list.*
 
 
-class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInterface {
+class MovieListFragment : BaseFragmentWithInjector(), MovieInterface, FilterInterface {
 
 
     private val movieAdapter by lazy { MovieAdapter(this) }
@@ -31,6 +31,8 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInter
 
     private lateinit var binding: MovieLayout
     private lateinit var paginator: RecyclerPaginator
+    private var isFilterByDate = false
+
 
 
     override fun onCreateView(
@@ -59,16 +61,14 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInter
     }
 
 
-
-
     override fun getFragmentVM(): Class<out ViewModel> {
         return MovieListViewModel::class.java
     }
 
 
     private fun goToDialog() {
-        var filterClass=FilterClass()
-        filterClass.filterInterface=this
+        var filterClass = FilterClass()
+        filterClass.filterInterface = this
         floating_action_button.setOnClickListener { fabView ->
             fabView.findNavController().navigate(
                 MovieListFragmentDirections
@@ -82,6 +82,7 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInter
 
         movieListViewModel execute MoviesScreenActions.InitMoviesList
         paginator = RecyclerPaginator(list, { movieListViewModel.isLoadMoreDisabled() }, {
+            if (!isFilterByDate)
             movieListViewModel execute MoviesScreenActions.LoadMoreList(it)
         })
 
@@ -99,15 +100,15 @@ class MovieListFragment : BaseFragmentWithInjector(), MovieInterface,FilterInter
         )
     }
 
-    override fun getReleaseDate(date: String) =
-        movieListViewModel execute  MoviesScreenActions.FilterByReleaseData(date)
+    override fun getReleaseDate(date: String) {
+        isFilterByDate=true
+        movieListViewModel execute MoviesScreenActions.FilterByReleaseData(date)
+    }
 
-
-    override fun getType(type: String) =
+    override fun getType(type: String) {
+        isFilterByDate=false
         movieListViewModel execute MoviesScreenActions.FilterByType(type)
-
-
-
+    }
 
 }
 

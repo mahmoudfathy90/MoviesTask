@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.hatlytask.R
 import com.example.hatlytask.movieScreen.domain.FilterMovieType
-import com.example.hatlytask.movieScreen.presentation.ui.detailsScreen.DetailsBottomSheetFragmentArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_movie_list.spinner
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -91,12 +90,15 @@ class FilterDialogFragment : BottomSheetDialogFragment(),
             picker = DatePickerDialog(
                 requireContext(),
                 OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-                    var date="$year-${monthOfYear + 1}-$dayOfMonth"
-                   releaseDate.setText(date)
-                   filterInterface.getReleaseDate(date)
+                    var stringDate="$year-${monthOfYear + 1}-$dayOfMonth"
+                    val format = SimpleDateFormat("yyyy-MM-dd")
+                    val date = format.parse(stringDate)
+                    val lastDate: String = format.format(date)
+                   releaseDate.setText(lastDate)
+                   filterInterface.getReleaseDate(lastDate)
+                    dismiss()
                     }, year, month, day
             )
-            picker.datePicker.maxDate = Date().time
             picker.show()
         }
 
